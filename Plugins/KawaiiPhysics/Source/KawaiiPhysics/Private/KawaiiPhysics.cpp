@@ -1,7 +1,6 @@
-// Copyright 2019-2025 pafuhana1213. All Rights Reserved.
+// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
 #include "KawaiiPhysics.h"
-#include "Modules/ModuleManager.h"
 
 #define LOCTEXT_NAMESPACE "FKawaiiPhysicsModule"
 
@@ -17,5 +16,5 @@ void FKawaiiPhysicsModule::ShutdownModule()
 }
 
 #undef LOCTEXT_NAMESPACE
-
+	
 IMPLEMENT_MODULE(FKawaiiPhysicsModule, KawaiiPhysics)

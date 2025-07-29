@@ -1,4 +1,4 @@
-// Copyright 2019-2025 pafuhana1213. All Rights Reserved.
+// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
 using UnrealBuildTool;
 
@@ -6,34 +6,53 @@ public class KawaiiPhysics : ModuleRules
 {
 	public KawaiiPhysics(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-
+		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+		
+		PublicIncludePaths.AddRange(
+			new string[] {
+				// ... add public include paths required here ...
+			}
+			);
+				
+		
+		PrivateIncludePaths.AddRange(
+			new string[] {
+				// ... add other private include paths required here ...
+			}
+			);
+			
+		
 		PublicDependencyModuleNames.AddRange(
-			new[]
+			new string[]
 			{
 				"Core",
-				"AnimGraphRuntime",
-			}
-		);
-
-		// StructUtils plugin has been integrated into the engine starting from 5.5
-		if (Target.Version.MajorVersion == 5 && Target.Version.MinorVersion <= 4)
-		{
-			PublicDependencyModuleNames.Add("StructUtils");
-		}
-
+				// ... add other public dependencies that you statically link with here ...
+                 "AnimGraphRuntime",
+            }
+			);
+			
+		
 		PrivateDependencyModuleNames.AddRange(
-			new[]
+			new string[]
 			{
 				"CoreUObject",
 				"Engine",
 				"Slate",
 				"SlateCore",
-				"GameplayTags"
+				// ... add private dependencies that you statically link with here ...	
+               
+            }
+			);
+		
+		
+		DynamicallyLoadedModuleNames.AddRange(
+			new string[]
+			{
+				// ... add any modules that your module loads dynamically here ...
 			}
-		);
-
-		if (Target.bBuildEditor)
+			);
+		
+		if (Target.bBuildEditor == true)
 		{
 			PublicDependencyModuleNames.Add("UnrealEd");
 		}
