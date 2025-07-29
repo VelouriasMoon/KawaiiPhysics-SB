@@ -184,3 +184,47 @@ public:
 #endif
 	
 };
+
+UCLASS(Blueprintable)
+class KAWAIIPHYSICS_API UKawaiiPhysicsMasterMeshDataAsset : public UDataAsset
+{
+	GENERATED_BODY()
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Master Mesh")
+	FName AttachBoneNameToMasterMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Master Mesh")
+	FTransform AttachTransformToMasterMesh;
+
+#if WITH_EDITORONLY_DATA 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spherical Limits")
+	TArray< FSphericalLimitData> SphericalLimitsData;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Capsule Limits")
+	TArray< FCapsuleLimitData> CapsuleLimitsData;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Planar Limits")
+	TArray< FPlanarLimitData> PlanarLimitsData;
+
+#endif
+
+#if WITH_EDITOR
+
+	void UpdateLimit(FCollisionLimitBase* Limit);
+	void Sync();
+
+#endif
+
+	UPROPERTY()
+	TArray< FSphericalLimit> SphericalLimits;
+	UPROPERTY()
+	TArray< FCapsuleLimit> CapsuleLimits;
+	UPROPERTY()
+	TArray< FPlanarLimit> PlanarLimits;
+
+#if WITH_EDITOR
+	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
+
+};

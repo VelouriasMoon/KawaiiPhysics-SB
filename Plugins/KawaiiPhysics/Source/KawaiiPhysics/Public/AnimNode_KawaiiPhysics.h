@@ -7,7 +7,9 @@
 #include "BoneControllers/AnimNode_SkeletalControlBase.h"
 #include "AnimNode_KawaiiPhysics.generated.h"
 
+
 class UKawaiiPhysicsLimitsDataAsset;
+class UKawaiiPhysicsMasterMeshDataAsset;
 
 UENUM()
 enum class EPlanarConstraint : uint8
@@ -36,6 +38,16 @@ enum class ECollisionLimitType : uint8
 	Spherical,
 	Capsule,
 	Planar,
+};
+
+//** Added by Stellar Blade **//
+UENUM()
+enum class ELimitAngleType : uint8
+{
+	AllSide = 0,
+	LefeSide = 1,
+	RightSide = 2,
+	ELimitAngleType_MAX = 3,
 };
 
 USTRUCT()
@@ -156,6 +168,13 @@ struct KAWAIIPHYSICS_API FKawaiiPhysicsSettings
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (PinHiddenByDefault, ClampMin = "0"), category = "KawaiiPhysics")
 	float LimitAngle = 0.0f;
+
+	//** Component Space Limit Added by Stellar Blade **/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (PinHiddenByDefault, ClampMin = "0"), category = "KawaiiPhysics")
+	FRotator ComponentSpaceLimitAngle = FRotator::ZeroRotator;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (PinHiddenByDefault, ClampMin = "0"), category = "KawaiiPhysics")
+	ELimitAngleType ComponentSpaceLimitAngleType = ELimitAngleType::AllSide;
 };
 
 USTRUCT()
@@ -286,6 +305,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Physics Settings", meta = (PinHiddenByDefault))
 	FRuntimeFloatCurve LimitAngleCurveData;
 
+	//** Added By Stellar Blade **//
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stellar Blade", meta = (PinHiddenByDefault))
+	float EnterVehicleScale;
+
 	/** Flag to update each frame physical parameter. Disable to improve performance */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Advanced Physics Settings", meta = (PinHiddenByDefault))
 	bool bUpdatePhysicsSettingsInGame = true;
@@ -322,6 +345,19 @@ public:
 	UPROPERTY(VisibleAnywhere, AdvancedDisplay, Category = "Limits Data(Experimental)")
 	TArray< FPlanarLimit> PlanarLimitsData;
 
+	//** Master Mesh Limits Added by Stellar Blade **//
+	UPROPERTY(EditAnywhere, Category = "Stellar Blade")
+	UKawaiiPhysicsMasterMeshDataAsset* MasterMeshDataAsset = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Stellar Blade")
+	TArray< FSphericalLimit> MasterMeshSphericalLimits;
+
+	UPROPERTY(EditAnywhere, Category = "Stellar Blade")
+	TArray< FCapsuleLimit> MasterMeshCapsuleLimits;
+
+	UPROPERTY(EditAnywhere, Category = "Stellar Blade")
+	TArray< FPlanarLimit> MasterMeshPlanarLimits;
+
 
 	/** If the movement amount of one frame exceeds the threshold, ignore the movement  */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Teleport", meta = (PinHiddenByDefault))
@@ -341,6 +377,10 @@ public:
 	/** Scale to apply to calculated wind velocities in the solver */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Wind", meta = (DisplayAfter = "bEnableWind"), meta = (PinHiddenByDefault))
 	float WindScale = 1.0f;
+
+	//** Added by Stellar Blade **//
+	UPROPERTY(EditAnywhere, Category = "Stellar Blade")
+	bool bEnabled;
 
 	/**
 	 *	EXPERIMENTAL. Perform sweeps for each simulating bodies to avoid collisions with the world.
