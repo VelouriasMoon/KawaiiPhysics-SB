@@ -363,7 +363,7 @@ void FKawaiiPhysicsEditModeBase::Tick(FEditorViewportClient* ViewportClient, flo
 
 void FKawaiiPhysicsEditModeBase::ConvertToComponentSpaceTransform(const USkeletalMeshComponent* SkelComp, const FTransform & InTransform, FTransform & OutCSTransform, int32 BoneIndex, EBoneControlSpace Space)
 {
-	USkeleton* Skeleton = SkelComp->SkeletalMesh->GetSkeleton();
+	USkeleton* Skeleton = SkelComp->SkeletalMesh->Skeleton;
 
 	switch (Space)
 	{
@@ -433,7 +433,7 @@ void FKawaiiPhysicsEditModeBase::ConvertToComponentSpaceTransform(const USkeleta
 
 void FKawaiiPhysicsEditModeBase::ConvertToBoneSpaceTransform(const USkeletalMeshComponent* SkelComp, const FTransform & InCSTransform, FTransform & OutBSTransform, int32 BoneIndex, EBoneControlSpace Space)
 {
-	USkeleton* Skeleton = SkelComp->SkeletalMesh->GetSkeleton();
+	USkeleton* Skeleton = SkelComp->SkeletalMesh->Skeleton;
 
 	switch (Space)
 	{
@@ -697,7 +697,7 @@ FVector FKawaiiPhysicsEditModeBase::ConvertWidgetLocation(const USkeletalMeshCom
 	{
 		if (InMeshBases.GetPose().IsValid())
 		{
-			USkeleton* Skeleton = InSkelComp->SkeletalMesh->GetSkeleton();
+			USkeleton* Skeleton = InSkelComp->SkeletalMesh->Skeleton;
 			const int32 MeshBoneIndex = InSkelComp->GetBoneIndex(InBoneName);
 			if (MeshBoneIndex != INDEX_NONE)
 			{
